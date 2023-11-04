@@ -107,10 +107,14 @@ class StorageImplementation(StorageInterface):
         today = date.today()
         # TODO: we should include clocked in datetime not null filter as well in below query
         #  because, when somehow we have an entry in attendance model with all as null values, then this code breaks
-        is_entry_for_today_exist = Attendance.objects.filter(
-            Q(clock_in_datetime__date=today) & Q(employee__employee_id=employee_id)).exists()
-        if is_entry_for_today_exist:
-            raise EmployeeAlreadyClockedIn
+        try:
+            attendance_object = Attendance.objects.get(
+                Q(clock_in_datetime__date=today) & Q(employee__employee_id=employee_id))
+        except Attendance.DoesNotExist:
+            pass
+        else:
+            raise EmployeeAlreadyClockedIn(employee_id=employee_id,
+                                           clock_in_datetime=attendance_object.clock_in_datetime)
 
     def validate_already_clocked_in(self, employee_id: str):
         today = date.today()
@@ -120,14 +124,14 @@ class StorageImplementation(StorageInterface):
 
         no_entry_for_today = not is_entry_for_today_exist
         if no_entry_for_today:
-            raise EmployeeNotClockedIn
+            raise EmployeeNotClockedIn(employee_id=employee_id)
 
     def validate_month(self, month: int) -> None:
         is_month_valid = 1 <= month <= 12
         is_month_not_valid = not is_month_valid
 
         if is_month_not_valid:
-            raise InvalidMoth
+            raise InvalidMoth(month=month)
 
     def validate_year(self, year: int) -> None:
         current_year = date.today().year
@@ -135,7 +139,7 @@ class StorageImplementation(StorageInterface):
         is_year_not_valid = not is_year_valid
 
         if is_year_not_valid:
-            raise InvalidYear
+            raise InvalidYear(year=year)
 
     def get_full_month_stats(self, employee_id: str, month: int, year: int) -> FullMothStatsDto:
         # TODO: module level imports must be global imports
@@ -169,7 +173,8 @@ class StorageImplementation(StorageInterface):
 
         already_clocked_out = attendance_object.clock_out_datetime != None
         if already_clocked_out:
-            raise EmployeeAlreadyClockedOut
+            raise EmployeeAlreadyClockedOut(employee_id=employee_id,
+                                            clock_out_datetime=attendance_object.clock_out_datetime)
 
     @staticmethod
     def _convert_employee_object_to_dto(employee: Employee):
@@ -196,4 +201,4 @@ class StorageImplementation(StorageInterface):
         is_invalid_employee_id = not is_valid_employee_id
 
         if is_invalid_employee_id:
-            raise InvalidEmployeeId
+            raise InvalidEmployeeId(employee_id=employee_id)

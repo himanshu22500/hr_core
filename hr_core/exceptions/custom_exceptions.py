@@ -1,23 +1,33 @@
-# TODO: better to have the emp_id
+from datetime import datetime
+
+
 class InvalidEmployeeId(Exception):
-    pass
+    def __init__(self, employee_id: str):
+        self.employee_id = employee_id
 
-# TODO: better to have the emp_id and already clocked in datetime if possible
+
 class EmployeeAlreadyClockedIn(Exception):
-    pass
+    def __init__(self, employee_id: str, clock_in_datetime: datetime):
+        self.employee_id = employee_id
+        self.clock_in_datetime = clock_in_datetime
 
-# TODO: better to have the emp_id and already clocked out datetime if possible
+
 class EmployeeAlreadyClockedOut(Exception):
-    pass
+    def __init__(self, employee_id: str, clock_out_datetime: datetime):
+        self.employee_id = employee_id
+        self.clock_out_datetime = clock_out_datetime
 
-# TODO: better to have the emp_id
+
 class EmployeeNotClockedIn(Exception):
-    pass
+    def __init__(self, employee_id: str):
+        self.employee_id = employee_id
 
-# TODO: better to have the invalid month
+
 class InvalidMoth(Exception):
-    pass
+    def __init__(self, month: int):
+        self.month = month
 
-# TODO: better to have the invalid year
+
 class InvalidYear(Exception):
-    pass
+    def __init__(self, year: int):
+        self.year = year
