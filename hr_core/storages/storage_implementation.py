@@ -1,7 +1,7 @@
 import datetime
 from typing import List, Dict
 from hr_core.interactors.storage_interfaces.storage_interface import StorageInterface
-from hr_core.interactors.storage_interfaces.dtos import AttendanceDTO
+from hr_core.interactors.storage_interfaces.dtos import AttendanceDTO, AttendanceParamDTO
 from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDTO
 from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDTO
 from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDTO
@@ -20,19 +20,18 @@ from hr_core.constants.enums import AttendanceStatusType
 
 class StorageImplementation(StorageInterface):
 
-    def get_attendance_data_for_month_year_employee(self, month: int,
-                                                    year: int, employee_id: str) -> List[AttendanceDTO]:
-        self._mark_single_punch_absent(month=month, year=year, employee_id=employee_id)
+    def get_attendance_data_for_month_year_employee(self, attendance_params: AttendanceParamDTO) -> List[AttendanceDTO]:
+        self._mark_single_punch_absent()
         attendance_data_list = list(Attendance.objects.filter(
-            Q(employee__employee_id=employee_id) &
-            Q(clock_in_datetime__date__year=year) &
-            Q(clock_in_datetime__date__month=month)
+            Q(employee__employee_id=attendance_params.employee_id) &
+            Q(clock_in_datetime__date__year=attendance_params.year) &
+            Q(clock_in_datetime__date__month=attendance_params.month)
         ).values('clock_in_datetime', 'clock_out_datetime', 'status', 'id'))
 
         attendance_data_list_dto = self._convert_attendance_list_object_to_dto(attendance_data_list)
         return attendance_data_list_dto
 
-    def _mark_single_punch_absent(self, month: int, year: int, employee_id: str) -> None:
+    def _mark_single_punch_absent(self) -> None:
         # Updating all values which is
         # Not today and
         # Not Clockout is none and
@@ -111,35 +110,24 @@ class StorageImplementation(StorageInterface):
         if no_entry_for_today:
             raise EmployeeNotClockedIn(employee_id=employee_id)
 
-    def validate_month(self, month: int) -> None:
-        is_month_valid = 1 <= month <= 12
-        is_month_not_valid = not is_month_valid
-
-        if is_month_not_valid:
-            raise InvalidMoth(month=month)
-
-    def validate_year(self, year: int) -> None:
-        current_year = date.today().year
-        is_year_valid = year <= current_year
-        is_year_not_valid = not is_year_valid
-
-        if is_year_not_valid:
-            raise InvalidYear(year=year)
-
-    def get_total_present_days_month(self, employee_id: str, month: int, year: int) -> int:
+    def get_total_present_days_month(self, attendance_params: AttendanceParamDTO) -> int:
         return Attendance.objects.filter(
-            Q(employee__employee_id=employee_id) & Q(status=AttendanceStatusType.PRESENT.value) & Q(
-                clock_in_datetime__date__year=year) & Q(clock_in_datetime__date__month=month)).count()
+            Q(employee__employee_id=attendance_params.employee_id) & Q(status=AttendanceStatusType.PRESENT.value) & Q(
+                clock_in_datetime__date__year=attendance_params.year) & Q(
+                clock_in_datetime__date__month=attendance_params.month)).count()
 
-    def get_total_absent_days_month(self, employee_id: str, month: int, year: int) -> int:
+    def get_total_absent_days_month(self, attendance_params: AttendanceParamDTO) -> int:
         return Attendance.objects.filter(
-            Q(employee__employee_id=employee_id) & Q(status=AttendanceStatusType.ABSENT.value) & Q(
-                clock_in_datetime__date__year=year) & Q(clock_in_datetime__date__month=month)).count()
+            Q(employee__employee_id=attendance_params.employee_id) & Q(status=AttendanceStatusType.ABSENT.value) & Q(
+                clock_in_datetime__date__year=attendance_params.year) & Q(
+                clock_in_datetime__date__month=attendance_params.month)).count()
 
-    def get_single_punch_in_days_month(self, employee_id: str, month: int, year: int) -> int:
+    def get_single_punch_in_days_month(self, attendance_params: AttendanceParamDTO) -> int:
         return Attendance.objects.filter(
-            Q(employee__employee_id=employee_id) & Q(status=AttendanceStatusType.SINGLE_PUNCH_ABSENT.value) & Q(
-                clock_in_datetime__date__year=year) & Q(clock_in_datetime__date__month=month)).count()
+            Q(employee__employee_id=attendance_params.employee_id) & Q(
+                status=AttendanceStatusType.SINGLE_PUNCH_ABSENT.value) & Q(
+                clock_in_datetime__date__year=attendance_params.year) & Q(
+                clock_in_datetime__date__month=attendance_params.month)).count()
 
     def get_total_working_days_month(self, month: int, year: int) -> int:
         from calendar import monthrange

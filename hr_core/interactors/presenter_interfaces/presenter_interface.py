@@ -14,7 +14,7 @@ class PresenterInterface:
     def get_response_for_get_employee(self, employee_details_dto: EmployeeDetailsDTO) -> HttpResponse:
         pass
 
-    # TODO: missed abstractmethod decorator
+    @abstractmethod
     def get_response_for_get_attendance_data(self, attendance_dto_list: List[AttendanceDTO]) -> HttpResponse:
         pass
 

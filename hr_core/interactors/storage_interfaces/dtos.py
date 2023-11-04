@@ -40,3 +40,10 @@ class FullMothStatsDTO:
     total_present_days: int
     total_absent_days: int
     total_single_punch_in_days: int
+
+
+@dataclass
+class AttendanceParamDTO:
+    month: int
+    year: int
+    employee_id: str

@@ -99,16 +99,16 @@
       "type": "object",
       "properties": {
         "total_working_days": {
-          "type": "number"
+          "type": "integer"
         },
         "total_present_days": {
-          "type": "number"
+          "type": "integer"
         },
         "total_absent_days": {
-          "type": "number"
+          "type": "integer"
         },
         "total_single_punch_in_days": {
-          "type": "number"
+          "type": "integer"
         }
       },
       "required": [
@@ -150,21 +150,21 @@
       "description": "Employee Id to Request Data",
       "in": "path",
       "required": true,
-      "type": "number"
+      "type": "integer"
     },
     "MonthParameter": {
       "name": "month",
       "description": "Month to Filter data",
       "in": "query",
       "required": true,
-      "type": "number"
+      "type": "integer"
     },
     "YearParameter": {
       "name": "year",
       "description": "Year to Filter data",
       "in": "query",
       "required": true,
-      "type": "number"
+      "type": "integer"
     }
   },
   "responses": {
