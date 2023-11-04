@@ -21,12 +21,14 @@ from hr_core.exceptions.custom_exceptions import EmployeeAlreadyClockedOut
 from hr_core.constants.enums import AttendanceStatusType
 from datetime import date
 from django.db.models import Q
+from hr_core.constants.enums import AttendanceStatusType
 
 
 class StorageImplementation(StorageInterface):
 
     def get_attendance_data_for_month_year_employee(self, month: int,
                                                     year: int, employee_id: str) -> List[AttendanceDto]:
+        self._mark_single_punch_absent(month=month, year=year, employee_id=employee_id)
         attendance_data_list = list(Attendance.objects.filter(
             Q(employee__employee_id=employee_id) &
             Q(clock_in_datetime__date__year=year) &
@@ -35,6 +37,18 @@ class StorageImplementation(StorageInterface):
 
         attendance_data_list_dto = self._convert_attendance_list_object_to_dto(attendance_data_list)
         return attendance_data_list_dto
+
+    def _mark_single_punch_absent(self, month: int, year: int, employee_id: str) -> None:
+        # Updating all values which is
+        # Not today and
+        # Not Clockout is none and
+        # Status is marked PRESENT
+
+        today = date.today()
+        Attendance.objects.filter(
+            ~Q(clock_in_datetime__date=today) & Q(clock_out_datetime=None) & Q(
+                status=AttendanceStatusType.PRESENT.value)).update(
+            status=AttendanceStatusType.SINGLE_PUNCH_ABSENT.value)
 
     @staticmethod
     def _convert_attendance_list_object_to_dto(attendance_object_list: List[Dict]) -> List[AttendanceDto]:

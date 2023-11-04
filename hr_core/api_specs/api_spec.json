@@ -128,7 +128,8 @@
           "enum": [
             "PRESENT",
             "ABSENT",
-            "HOLIDAY"
+            "HOLIDAY",
+            "SINGLE_PUNCH_ABSENT"
           ]
         }
       },

@@ -16,6 +16,7 @@ class AttendanceStatusType(Enum):
     PRESENT = "PRESENT"
     ABSENT = "ABSENT"
     HOLIDAY = "HOLIDAY"
+    SINGLE_PUNCH_ABSENT = "SINGLE_PUNCH_ABSENT"
 
 
 class StatusCode(Enum):
