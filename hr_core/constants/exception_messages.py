@@ -1,0 +1,6 @@
+INVALID_EMPLOYEE_ID = ('Employee Does not exist', 'INVALID_EMPLOYEE_ID')
+EMPLOYEE_ALREADY_CLOCKED_IN = ('Employee Already Clocked in', 'EMPLOYEE_ALREADY_CLOCKED_IN')
+EMPLOYEE_ALREADY_CLOCKED_OUT = ('Employee Already Clocked out', 'EMPLOYEE_ALREADY_CLOCKED_OUT')
+EMPLOYEE_NOT_CLOCKED_IN = ('Employee Not Clocked in', 'EMPLOYEE_NOT_CLOCKED_IN')
+INVALID_MONTH = ('Month must be in range 1 to 12', 'INVALID_MONTH')
+INVALID_YEAR = ('Year must be less then current year', 'INVALID_YEAR')

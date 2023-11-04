@@ -1,0 +1,106 @@
+1.Authentication
+
+    /login
+    /logout
+
+2.Employees
+
+    /employees - Gets a list of all employees.
+    /employees/{id} - Gets an employee by ID.
+    /employees/create - Creates a new employee.
+    /employees/update - Updates an existing employee.
+    /employees/delete - Deletes an employee.
+
+3.Employee Personal Details
+
+    /employees/{id}/personal-details - Gets the employee's personal details.
+    /employees/{id}/personal-details/update - Updates the employee's personal details.
+
+4.Employee Contact Information
+
+    /employees/{id}/contact-information - Gets the employee's contact information.
+    /employees/{id}/contact-information/update - Updates the employee's contact information.
+
+5.Employee Job History
+
+    /employees/{id}/job-history - Gets the employee's job history.
+    /employees/{id}/job-history/update - Updates the employee's job history.
+
+
+Database 
+
+1.Employee
+
+    first_name 
+    last_name 
+    email
+    phone_number 
+    job_title 
+    department 
+    manager_id 
+
+2.EmployeePersonalDetails (1:1 Feild)
+
+    employee_id (Refrence to Employee)
+    address 
+    city 
+    state 
+    zip_code 
+    birthdate 
+    gender 
+
+3.EmployeeContactInformation (1:1 Feild)
+
+    employee_id (Refrence to Employee)
+    personal_email 
+    personal_phone_number 
+    work_email 
+    work_phone_number 
+
+4.EmployeeJobHistory (1:m Feild)
+
+    employee_id (Refrence to Employee)
+    company_name
+    job_title 
+    start_date
+    end_date 
+
+5.EmployeePerformanceRecords
+
+    employee_id (Refrence to Employee)
+    performance_review_date 
+    overall_performance_rating (Number b/w 1 to 5)
+    manager_comments 
+
+
+6.TimeClockRecord (1:m Feild)
+
+    employee_id (Refrence to Employee)
+    clock_in_time 
+    clock_out_time 
+
+7.LeaveRequest (1:m Feild)
+
+    employee_id (Refrence to Employee)
+    leave_type 
+    start_date
+    end_date 
+    reason 
+    status (Approved or Not Approved)
+    manager_comments 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

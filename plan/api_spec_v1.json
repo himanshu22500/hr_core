@@ -1,0 +1,481 @@
+{
+  "swagger": "2.0",
+  "host": "127.0.0.1:8000",
+  "basePath": "/api/hr_core/",
+  "info": {
+    "version": "1.0.0",
+    "title": "Simple API",
+    "description": "A simple API to learn how to write OpenAPI Specification"
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "oauth": {
+      "tokenUrl": "http://auth.ibtspl.com/oauth2/",
+      "flow": "password",
+      "scopes": {
+        "read": "read users",
+        "write": "create users",
+        "update": "update users",
+        "delete": "delete users"
+      },
+      "type": "oauth2"
+    }
+  },
+  "security": [],
+  "definitions": {
+    "CommonHttpExceptionFields": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "string"
+        },
+        "http_status_code": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "response",
+        "http_status_code"
+      ]
+    },
+    "Employee": {
+      "type": "object",
+      "properties": {
+        "employee_id": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "job_title": {
+          "type": "string"
+        },
+        "department": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "employee_id",
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "job_tile",
+        "department"
+      ]
+    },
+    "MonthlyStats": {
+      "type": "object",
+      "properties": {
+        "total_working_days": {
+          "type": "number"
+        },
+        "total_present_days": {
+          "type": "number"
+        },
+        "total_absent_days": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "total_working_days",
+        "total_present_days",
+        "total_absent_days"
+      ]
+    },
+    "DailyAttendanceData": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "clock_in_time": {
+          "type": "string"
+        },
+        "clock_out_time": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "date",
+        "clock_in_time",
+        "clock_out_time"
+      ]
+    }
+  },
+  "parameters": {
+    "EmployeeIdParameter": {
+      "name": "EmployeeIdInPath",
+      "description": "Employee Id to Request Data",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "number"
+      }
+    },
+    "MonthParameter": {
+      "name": "MonthInQueryParameter",
+      "description": "Month to Filter data",
+      "in": "query",
+      "required": true,
+      "schema": {
+        "type": "number"
+      }
+    },
+    "YearParameter": {
+      "name": "YearInQueryParameter",
+      "description": "Year to Filter data",
+      "in": "query",
+      "required": true,
+      "schema": {
+        "type": "number"
+      }
+    }
+  },
+  "responses": {
+    "EmployeeDetailsSuccessResponse": {
+      "description": "Success Response for Employee Details",
+      "schema": {
+        "$ref": "#/definitions/Employee"
+      }
+    },
+    "EmployeeNotFoundResponse": {
+      "description": "Employee Id not found response",
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/CommonHttpExceptionFields"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "res_status": {
+                "type": "string",
+                "enum": [
+                  "INVALID_EMPLOYEE_ID"
+                ]
+              }
+            },
+            "required": [
+              "res_status"
+            ]
+          }
+        ]
+      }
+    },
+    "ClockInSuccessResponse": {
+      "description": "Success Response for ClockIn",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "clock_in_date_time": {
+            "type": "string",
+            "example": "2023-11-01 12:16:02.722338"
+          }
+        },
+        "required": [
+          "session_id",
+          "clock_in_date_time"
+        ]
+      }
+    },
+    "ClockInFailureResponse": {
+      "description": "ClockIn Failure Response",
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/CommonHttpExceptionFields"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "res_status": {
+                "type": "string",
+                "enum": [
+                  "INVALID_CLOCKIN_STATE"
+                ]
+              }
+            },
+            "required": [
+              "res_status"
+            ]
+          }
+        ]
+      }
+    },
+    "ClockOutSuccessResponse": {
+      "description": "Success Response for ClockOut",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "clock_out_date_time": {
+            "type": "string",
+            "example": "2023-11-01 12:16:02.722338"
+          }
+        },
+        "required": [
+          "session_id",
+          "clock_out_date_time"
+        ]
+      }
+    },
+    "ClockOutFailureResponse": {
+      "description": "ClockOut Failure Response",
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/CommonHttpExceptionFields"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "res_status": {
+                "type": "string",
+                "enum": [
+                  "INVALID_CLOCKOUT_STATE"
+                ]
+              }
+            },
+            "required": [
+              "res_status"
+            ]
+          }
+        ]
+      }
+    },
+    "MonthStatsSuccessResponse": {
+      "description": "Success Response for Monthly Stats",
+      "schema": {
+        "$ref": "#/definitions/MonthlyStats"
+      }
+    },
+    "MonthStatsFailureResponse": {
+      "description": "Month Stat Failure Response",
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/CommonHttpExceptionFields"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "res_status": {
+                "type": "string",
+                "enum": [
+                  "INVALID_MONTH",
+                  "INVALID_YEAR"
+                ]
+              }
+            },
+            "required": [
+              "res_status"
+            ]
+          }
+        ]
+      }
+    },
+    "AttendanceDataSuccessResponse": {
+      "description": "Success Response for Attendance data",
+      "schema": {
+        "type": "object",
+        "properties" : {
+          "attendance_data":{
+            "type":"array",
+            "items":{
+              "$ref": "#/definitions/DailyAttendanceData"
+            }
+          }
+        }
+      }
+    },
+    "AttendanceDataFailureResponse": {
+      "description": "Attendance Failure Response",
+      "schema": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/CommonHttpExceptionFields"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "res_status": {
+                "type": "string",
+                "enum": [
+                  "INVALID_MONTH",
+                  "INVALID_YEAR"
+                ]
+              }
+            },
+            "required": [
+              "res_status"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/employee/{employee_id}/v1/": {
+      "get": {
+        "summary": "Get Employee Details",
+        "description": "Get Complete Details of Employee",
+        "operationId": "get_employee_details",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EmployeeIdParameter"
+          }
+        ],
+        "security": [
+          {
+            "oauth": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/EmployeeDetailsSuccessResponse"
+          },
+          "404": {
+            "$ref": "#/responses/EmployeeNotFoundResponse"
+          }
+        }
+      }
+    },
+    "/employee/attendance/clockin/v1/": {
+      "post": {
+        "summary": "Mark Clockin",
+        "description": "API to mark the start time of the day",
+        "operationId": "mark_clock_in",
+        "parameters": [],
+        "security": [
+          {
+            "oauth": [
+              "write"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/ClockInSuccessResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ClockInFailureResponse"
+          }
+        }
+      }
+    },
+    "/employee/attendance/clockout/v1/": {
+      "put": {
+        "summary": "Mark ClockOut time",
+        "description": "API to mark end time of the day",
+        "operationId": "mark_clock_out",
+        "parameters": [],
+        "security": [
+          {
+            "oauth": [
+              "write"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ClockOutSuccessResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ClockOutFailureResponse"
+          }
+        }
+      }
+    },
+    "/employee/{employee_id}/attendance/month_stats/v1/": {
+      "get": {
+        "summary": "Get Full Month stats",
+        "description": "Get stats total stats for the full month of the year",
+        "operationId": "get_full_month_stat",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EmployeeIdParameter"
+          },
+          {
+            "$ref": "#/parameters/MonthParameter"
+          },
+          {
+            "$ref": "#/parameters/YearParameter"
+          }
+        ],
+        "security": [
+          {
+            "oauth": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/MonthStatsSuccessResponse"
+          },
+          "400": {
+            "$ref": "#/responses/MonthStatsFailureResponse"
+          }
+        }
+      }
+    },
+    "/employee/{employee_id}/attendance/data/v1/": {
+      "get": {
+        "summary": "Get Each day Attendance data",
+        "operationId": "get_attendance_data_list",
+        "description": "Get Clockin and Clockout data for each day in the month",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EmployeeIdParameter"
+          },
+          {
+            "$ref": "#/parameters/MonthParameter"
+          },
+          {
+            "$ref": "#/parameters/YearParameter"
+          }
+        ],
+        "security": [
+          {
+            "oauth": [
+              "read"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/AttendanceDataSuccessResponse"
+          },
+          "400": {
+            "$ref": "#/responses/AttendanceDataFailureResponse"
+          }
+        }
+      }
+    }
+  }
+}

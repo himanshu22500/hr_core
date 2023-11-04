@@ -1,0 +1,177 @@
+Assuming User is already present and no need to create user 
+
+One Home page -> Private to user
+Suggest me apis for this usecase with complete input and output format of api
+Home page will have sections for 
+        - User details
+            : User will get all its details
+        - ClockIn and ClockOut
+            : User should be able to clockin
+            :  User should be able to clockout
+        - One view to get Metric for specifc month
+                : metric should contain
+                    {
+                        "total_working_days",
+                        "total_present_days",
+                        "total_absent_days",
+                    }
+        - One view to get attendence data of this month
+                : User can ask for any month and year data
+
+
+APIS:
+
+User Detail
+1. GET /employee/{employee_id}/details
+Response Code 200:
+    {
+        "employee_id":"id",
+        "first_name": "string",
+        "last_name": "string",
+        "email": "string",
+        "phone_number" : "string",
+        "job_tile": "string",
+        "department": "string"
+    }
+
+Response Code 404:
+    {
+          "response": "User Does not Exist",
+          "http_status_code": 404,
+          "res_status": "WILL_DEFINE_STATUS"
+    }
+
+
+Clockin ClockOut
+2. POST /employee/{employee_id}/attendance/clockin
+Request Body:
+    {
+        "clock_in_date_time":"time.now()"
+    }
+
+Response Code 201:
+    {
+        "session_id": "string",
+        "date":"string",
+        "clock_in_time": "string",
+        "clock_out_time": "string",
+        "status": "string"
+    }
+
+Response Code 400:
+    {
+          "response": "Already Clocked in",
+          "http_status_code": 401,
+          "res_status": "WILL_DEFINE_STATUS"
+    }
+
+
+3. PUT /employee/{employee_id}/attendance/clockout
+Request Body:
+    {
+        "clock_out_date_time":"time.now()"
+    }
+
+Response Code 200:
+    SUCCESS Message
+
+Response Code 400:
+    {
+          "response": "No Clockin Session found",
+          "http_status_code": 400,
+          "res_status": "WILL_DEFINE_STATUS"
+    }
+
+4. Full Month Metric
+GET /employee/{employee_id}/attendance/month_stat/?moth={month}&year={year}
+
+Response Body:
+
+Response Code 200:
+    {
+        "total_working_days":"Number",
+        "total_present_days":"Number",
+        "total_absent_days":"Number"
+    }
+Response Code 400:
+    {
+          "response": "Future Month Requested",
+          "http_status_code": 400,
+          "res_status": "WILL_DEFINE_STATUS"
+    }
+
+5. Attendance Metrics
+GET /employee/{employee_id}/attendance/data/?month={month}&year={year}
+
+Response Body:
+
+Response Code 200:
+    {
+        "daily_attendance":[
+            {
+              "date":"string",
+              "clock_in_time": "string",
+              "clock_out_time": "string",
+              "status": "string"
+            },
+            {
+              "date":"string",
+              "clock_in_time": "string",
+              "clock_out_time": "string",
+              "status": "string"
+            },
+            ... 30 or 31 object with null if required
+        ]
+    }
+
+Response Code 400:
+    {
+          "response": "Future Month Requested",
+          "http_status_code": 400,
+          "res_status": "WILL_DEFINE_STATUS"
+    }
+
+
+
+
+
+Database model for these features:
+
+class Employee(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
+    phone_number = models.CharField(max_length=255)
+    job_role = models.CharField(max_length=255) # make it choose from choice
+    department = models.CharField(max_length=255) # make it choose from choice
+
+
+class Attendance(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    clock_in_time = models.DateTimeField()
+    clock_out_time = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=255)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
