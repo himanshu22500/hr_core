@@ -13,7 +13,7 @@ class FullMonthStatsInteractor:
     def get_full_month_stats_wrapper(self, month: int, year: int, employee_id: str,
                                      presenter: PresenterInterface) -> HttpResponse:
         try:
-            full_month_stats_dto = self.full_month_stats(month=month, year=year, employee_id=employee_id)
+            full_month_stats_dto = self.get_full_month_stats(month=month, year=year, employee_id=employee_id)
         except InvalidMoth:
             return presenter.raise_exception_for_invalid_month()
         except InvalidYear:
@@ -21,10 +21,19 @@ class FullMonthStatsInteractor:
 
         return presenter.get_response_for_get_full_month_stats(full_month_stats_dto=full_month_stats_dto)
 
-    # TODO: method name should always be a verb, i.e, should be representing an action
-    def full_month_stats(self, month: int, year: int, employee_id: str) -> FullMothStatsDto:
+    def get_full_month_stats(self, month: int, year: int, employee_id: str) -> FullMothStatsDto:
         self.storage.validate_year(year=year)
         self.storage.validate_month(month=month)
 
-        full_month_stats_dto = self.storage.get_full_month_stats(employee_id=employee_id, month=month, year=year)
-        return full_month_stats_dto
+        total_working_days = self.storage.get_total_present_days_month(employee_id=employee_id, month=month, year=year)
+        total_present_days = self.storage.get_total_present_days_month(employee_id=employee_id, month=month, year=year)
+        total_absent_days = self.storage.get_total_absent_days_month(employee_id=employee_id, month=month, year=year)
+        total_single_punch_in_days = self.storage.get_single_punch_in_days_month(employee_id=employee_id, month=month,
+                                                                                 year=year)
+
+        return FullMothStatsDto(
+            total_working_days=total_working_days,
+            total_present_days=total_present_days,
+            total_absent_days=total_absent_days,
+            total_single_punch_in_days=total_single_punch_in_days
+        )

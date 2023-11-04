@@ -80,9 +80,10 @@ class PresenterImplementation(PresenterInterface, HTTPResponseMixin):
 
     def get_response_for_get_full_month_stats(self, full_month_stats_dto: FullMothStatsDto) -> HttpResponse:
         response_dict = {
-            "total_working_days": int(full_month_stats_dto.total_working_days),
-            "total_present_days": int(full_month_stats_dto.total_present_days),
-            "total_absent_days": int(full_month_stats_dto.total_absent_days)
+            "total_working_days": full_month_stats_dto.total_working_days,
+            "total_present_days": full_month_stats_dto.total_present_days,
+            "total_absent_days": full_month_stats_dto.total_absent_days,
+            "total_single_punch_in_days": full_month_stats_dto.total_single_punch_in_days
         }
         return self.prepare_200_success_response(response_dict=response_dict)
 

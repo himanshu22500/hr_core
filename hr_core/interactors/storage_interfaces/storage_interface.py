@@ -19,8 +19,20 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def get_full_month_stats(self, employee_id: str, month: int, year: int) -> FullMothStatsDto:
+    def get_total_present_days_month(self, employee_id: str, month: int, year: int) -> int:
         pass
+
+    @abstractmethod
+    def get_total_absent_days_month(self, employee_id: str, month: int, year: int) -> int:
+        pass
+
+    @abstractmethod
+    def get_single_punch_in_days_month(self, employee_id: str, month: int, year: int) -> int:
+        pass
+
+    def get_total_working_days_month(self, month: int, year: int) -> int:
+        from calendar import monthrange
+        return monthrange(year=year, month=month)[1]
 
     @abstractmethod
     def validate_employee_id(self, employee_id: str) -> None:

@@ -6,7 +6,7 @@ from hr_core.constants.enums import AttendanceStatusType
 class Attendance(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE,
                                  related_name="employee")
-    clock_in_datetime = models.DateTimeField(null=True, blank=True)
+    clock_in_datetime = models.DateTimeField()
     clock_out_datetime = models.DateTimeField(null=True, blank=True)
     AttendanceStatus_Choice = (
         (AttendanceStatusType.PRESENT.value, AttendanceStatusType.PRESENT.value),
