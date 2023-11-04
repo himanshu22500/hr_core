@@ -2,7 +2,7 @@ from hr_core.interactors.storage_interfaces.storage_interface import StorageInte
 from hr_core.interactors.presenter_interfaces.presenter_interface import PresenterInterface
 from hr_core.exceptions.custom_exceptions import InvalidEmployeeId
 from hr_core.exceptions.custom_exceptions import EmployeeAlreadyClockedIn
-from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDto
+from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDTO
 
 
 class MarkClockInInteractor:
@@ -18,7 +18,7 @@ class MarkClockInInteractor:
 
         return presenter.get_mark_clock_in_response(clock_in_attendance_dto=clock_in_attendance_dto)
 
-    def mark_clock_in(self, employee_id: str) -> ClockInAttendanceDto:
+    def mark_clock_in(self, employee_id: str) -> ClockInAttendanceDTO:
         self.storage.validate_already_not_clocked_in(employee_id=employee_id)
 
         clock_in_attendance_dto = self.storage.create_and_get_clockin_attendance(employee_id=employee_id)

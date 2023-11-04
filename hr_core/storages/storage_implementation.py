@@ -1,10 +1,10 @@
 import datetime
 from typing import List, Dict
 from hr_core.interactors.storage_interfaces.storage_interface import StorageInterface
-from hr_core.interactors.storage_interfaces.dtos import AttendanceDto
-from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDto
-from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDto
-from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDto
+from hr_core.interactors.storage_interfaces.dtos import AttendanceDTO
+from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDTO
+from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDTO
+from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDTO
 from hr_core.models.employee import Employee
 from hr_core.models.attendance import Attendance
 from hr_core.exceptions.custom_exceptions import InvalidEmployeeId
@@ -21,7 +21,7 @@ from hr_core.constants.enums import AttendanceStatusType
 class StorageImplementation(StorageInterface):
 
     def get_attendance_data_for_month_year_employee(self, month: int,
-                                                    year: int, employee_id: str) -> List[AttendanceDto]:
+                                                    year: int, employee_id: str) -> List[AttendanceDTO]:
         self._mark_single_punch_absent(month=month, year=year, employee_id=employee_id)
         attendance_data_list = list(Attendance.objects.filter(
             Q(employee__employee_id=employee_id) &
@@ -45,10 +45,10 @@ class StorageImplementation(StorageInterface):
             status=AttendanceStatusType.SINGLE_PUNCH_ABSENT.value)
 
     @staticmethod
-    def _convert_attendance_list_object_to_dto(attendance_object_list: List[Dict]) -> List[AttendanceDto]:
+    def _convert_attendance_list_object_to_dto(attendance_object_list: List[Dict]) -> List[AttendanceDTO]:
         attendance_dto_list = []
         for attendance_object in attendance_object_list:
-            attendance_dto = AttendanceDto(
+            attendance_dto = AttendanceDTO(
                 attendance_id=attendance_object['id'],
                 clock_in_date_time=attendance_object['clock_in_datetime'],
                 clock_out_date_time=attendance_object['clock_out_datetime'],
@@ -67,12 +67,12 @@ class StorageImplementation(StorageInterface):
         return attendance_entry
 
     @staticmethod
-    def _convert_attendance_object_to_clock_in_dto(attendance: Attendance) -> ClockInAttendanceDto:
-        clock_in_dto = ClockInAttendanceDto(attendance_id=attendance.pk,
+    def _convert_attendance_object_to_clock_in_dto(attendance: Attendance) -> ClockInAttendanceDTO:
+        clock_in_dto = ClockInAttendanceDTO(attendance_id=attendance.pk,
                                             clock_in_date_time=attendance.clock_in_datetime)
         return clock_in_dto
 
-    def create_and_get_clockin_attendance(self, employee_id: str) -> ClockInAttendanceDto:
+    def create_and_get_clockin_attendance(self, employee_id: str) -> ClockInAttendanceDTO:
         employee = Employee.objects.get(employee_id=employee_id)
         attendance_entry = Attendance(employee=employee, clock_in_datetime=datetime.datetime.now(),
                                       clock_out_datetime=None, status=AttendanceStatusType.PRESENT.value)
@@ -81,12 +81,12 @@ class StorageImplementation(StorageInterface):
         return clock_in_attendance_dto
 
     @staticmethod
-    def _convert_attendance_object_to_clock_out_dto(attendance: Attendance) -> ClockOutAttendanceDto:
-        clock_out_dto = ClockOutAttendanceDto(attendance_id=attendance.pk,
+    def _convert_attendance_object_to_clock_out_dto(attendance: Attendance) -> ClockOutAttendanceDTO:
+        clock_out_dto = ClockOutAttendanceDTO(attendance_id=attendance.pk,
                                               clock_out_date_time=attendance.clock_out_datetime)
         return clock_out_dto
 
-    def create_and_get_clockout_attendance(self, employee_id: str) -> ClockOutAttendanceDto:
+    def create_and_get_clockout_attendance(self, employee_id: str) -> ClockOutAttendanceDTO:
         attendance_entry = self._create_clock_out_attendance(employee_id=employee_id)
         clock_out_attendance_dto = self._convert_attendance_object_to_clock_out_dto(attendance=attendance_entry)
         return clock_out_attendance_dto
@@ -157,7 +157,7 @@ class StorageImplementation(StorageInterface):
 
     @staticmethod
     def _convert_employee_object_to_dto(employee: Employee):
-        employee_dto = EmployeeDetailsDto(
+        employee_dto = EmployeeDetailsDTO(
             employee_id=employee.employee_id,
             first_name=employee.first_name,
             last_name=employee.last_name,
@@ -169,7 +169,7 @@ class StorageImplementation(StorageInterface):
         )
         return employee_dto
 
-    def get_employee(self, employee_id: str) -> EmployeeDetailsDto:
+    def get_employee(self, employee_id: str) -> EmployeeDetailsDTO:
         employee = Employee.objects.get(employee_id=employee_id)
         employee_dto = self._convert_employee_object_to_dto(employee=employee)
         return employee_dto

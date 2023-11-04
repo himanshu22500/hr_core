@@ -1,21 +1,21 @@
 from abc import abstractmethod
 from typing import List
-from hr_core.interactors.storage_interfaces.dtos import AttendanceDto
-from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDto
-from hr_core.interactors.storage_interfaces.dtos import FullMothStatsDto
-from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDto
-from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDto
+from hr_core.interactors.storage_interfaces.dtos import AttendanceDTO
+from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDTO
+from hr_core.interactors.storage_interfaces.dtos import FullMothStatsDTO
+from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDTO
+from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDTO
 
 
 class StorageInterface:
 
     @abstractmethod
     def get_attendance_data_for_month_year_employee(self, month: int,
-                                                    year: int, employee_id: str) -> List[AttendanceDto]:
+                                                    year: int, employee_id: str) -> List[AttendanceDTO]:
         pass
 
     @abstractmethod
-    def get_employee(self, employee_id: str) -> EmployeeDetailsDto:
+    def get_employee(self, employee_id: str) -> EmployeeDetailsDTO:
         pass
 
     @abstractmethod
@@ -47,11 +47,11 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def create_and_get_clockin_attendance(self, employee_id: str) -> ClockInAttendanceDto:
+    def create_and_get_clockin_attendance(self, employee_id: str) -> ClockInAttendanceDTO:
         pass
 
     @abstractmethod
-    def create_and_get_clockout_attendance(self, employee_id: str) -> ClockOutAttendanceDto:
+    def create_and_get_clockout_attendance(self, employee_id: str) -> ClockOutAttendanceDTO:
         pass
 
     @abstractmethod

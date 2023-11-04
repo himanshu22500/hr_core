@@ -8,22 +8,22 @@ from hr_core.constants.exception_messages import EMPLOYEE_NOT_CLOCKED_IN
 from django_swagger_utils.utils.http_response_mixin import HTTPResponseMixin
 
 from hr_core.interactors.presenter_interfaces.presenter_interface import PresenterInterface
-from hr_core.interactors.storage_interfaces.storage_interface import EmployeeDetailsDto, ClockInAttendanceDto, \
-    FullMothStatsDto, AttendanceDto
-from hr_core.interactors.storage_interfaces.storage_interface import ClockOutAttendanceDto
+from hr_core.interactors.storage_interfaces.storage_interface import EmployeeDetailsDTO, ClockInAttendanceDTO, \
+    FullMothStatsDTO, AttendanceDTO
+from hr_core.interactors.storage_interfaces.storage_interface import ClockOutAttendanceDTO
 from hr_core.constants.enums import StatusCode
 from django.http import HttpResponse
 
 
 class PresenterImplementation(PresenterInterface, HTTPResponseMixin):
-    def get_mark_clock_in_response(self, clock_in_attendance_dto: ClockInAttendanceDto) -> HttpResponse:
+    def get_mark_clock_in_response(self, clock_in_attendance_dto: ClockInAttendanceDTO) -> HttpResponse:
         clock_in_attendance_dict = {
             "attendance_id": str(clock_in_attendance_dto.attendance_id),
             "clock_in_date_time": str(clock_in_attendance_dto.clock_in_date_time)
         }
         return self.prepare_201_created_response(response_dict=clock_in_attendance_dict)
 
-    def get_response_for_get_attendance_data(self, attendance_dto_list: List[AttendanceDto]) -> HttpResponse:
+    def get_response_for_get_attendance_data(self, attendance_dto_list: List[AttendanceDTO]) -> HttpResponse:
         attendance_data_list = self._get_attendance_data_list(attendance_dto_list=attendance_dto_list)
         response_dict = {
             "attendance_data": attendance_data_list
@@ -31,7 +31,7 @@ class PresenterImplementation(PresenterInterface, HTTPResponseMixin):
         return self.prepare_200_success_response(response_dict=response_dict)
 
     @staticmethod
-    def _get_attendance_data_list(attendance_dto_list: List[AttendanceDto]) -> List[Dict]:
+    def _get_attendance_data_list(attendance_dto_list: List[AttendanceDTO]) -> List[Dict]:
         attendance_data_list = []
         for attendance_dto in attendance_dto_list:
             attendance_data_dict = {
@@ -78,7 +78,7 @@ class PresenterImplementation(PresenterInterface, HTTPResponseMixin):
 
         return self.prepare_400_bad_request_response(response_dict=response_dict)
 
-    def get_response_for_get_full_month_stats(self, full_month_stats_dto: FullMothStatsDto) -> HttpResponse:
+    def get_response_for_get_full_month_stats(self, full_month_stats_dto: FullMothStatsDTO) -> HttpResponse:
         response_dict = {
             "total_working_days": full_month_stats_dto.total_working_days,
             "total_present_days": full_month_stats_dto.total_present_days,
@@ -95,11 +95,11 @@ class PresenterImplementation(PresenterInterface, HTTPResponseMixin):
         }
         return self.prepare_400_bad_request_response(response_dict=response_dict)
 
-    def get_response_for_get_employee(self, employee_details_dto: EmployeeDetailsDto) -> HttpResponse:
+    def get_response_for_get_employee(self, employee_details_dto: EmployeeDetailsDTO) -> HttpResponse:
         employee_details_dict = self._get_employee_details(employee_details_dto)
         return self.prepare_200_success_response(response_dict=employee_details_dict)
 
-    def get_mark_clock_out_response(self, clock_out_attendance_dto: ClockOutAttendanceDto) -> HttpResponse:
+    def get_mark_clock_out_response(self, clock_out_attendance_dto: ClockOutAttendanceDTO) -> HttpResponse:
         clock_out_attendance_dict = {
             "attendance_id": str(clock_out_attendance_dto.attendance_id),
             "clock_out_date_time": str(clock_out_attendance_dto.clock_out_date_time)
@@ -107,7 +107,7 @@ class PresenterImplementation(PresenterInterface, HTTPResponseMixin):
         return self.prepare_200_success_response(response_dict=clock_out_attendance_dict)
 
     @staticmethod
-    def _get_employee_details(employee_dto: EmployeeDetailsDto) -> Dict:
+    def _get_employee_details(employee_dto: EmployeeDetailsDTO) -> Dict:
         employee_details_dict = {
             "employee_id": employee_dto.employee_id,
             "first_name": employee_dto.first_name,

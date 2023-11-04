@@ -1,5 +1,5 @@
 from hr_core.interactors.storage_interfaces.storage_interface import StorageInterface
-from hr_core.interactors.storage_interfaces.dtos import FullMothStatsDto
+from hr_core.interactors.storage_interfaces.dtos import FullMothStatsDTO
 from hr_core.interactors.presenter_interfaces.presenter_interface import PresenterInterface
 from hr_core.exceptions.custom_exceptions import InvalidMoth
 from hr_core.exceptions.custom_exceptions import InvalidYear
@@ -21,7 +21,7 @@ class FullMonthStatsInteractor:
 
         return presenter.get_response_for_get_full_month_stats(full_month_stats_dto=full_month_stats_dto)
 
-    def get_full_month_stats(self, month: int, year: int, employee_id: str) -> FullMothStatsDto:
+    def get_full_month_stats(self, month: int, year: int, employee_id: str) -> FullMothStatsDTO:
         self.storage.validate_year(year=year)
         self.storage.validate_month(month=month)
 
@@ -31,7 +31,7 @@ class FullMonthStatsInteractor:
         total_single_punch_in_days = self.storage.get_single_punch_in_days_month(employee_id=employee_id, month=month,
                                                                                  year=year)
 
-        return FullMothStatsDto(
+        return FullMothStatsDTO(
             total_working_days=total_working_days,
             total_present_days=total_present_days,
             total_absent_days=total_absent_days,

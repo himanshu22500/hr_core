@@ -2,7 +2,7 @@ from typing import List
 from hr_core.interactors.presenter_interfaces.presenter_interface import PresenterInterface
 from hr_core.interactors.storage_interfaces.storage_interface import StorageInterface
 from django.http import HttpResponse
-from hr_core.interactors.storage_interfaces.dtos import AttendanceDto
+from hr_core.interactors.storage_interfaces.dtos import AttendanceDTO
 from hr_core.exceptions.custom_exceptions import InvalidMoth
 from hr_core.exceptions.custom_exceptions import InvalidYear
 
@@ -23,7 +23,7 @@ class GetAttendanceDataInteractor:
 
         return presenter.get_response_for_get_attendance_data(attendance_dto_list=attendance_data_dto_list)
 
-    def get_attendance_data(self, month: int, year: int, employee_id: str) -> List[AttendanceDto]:
+    def get_attendance_data(self, month: int, year: int, employee_id: str) -> List[AttendanceDTO]:
         # todo: better to follow kwargs evn for one arg
         # todo: validate month and year are completely python logic so, writing them in storage layer is not appropriate
         self.storage.validate_month(month)

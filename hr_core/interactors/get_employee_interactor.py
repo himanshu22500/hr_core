@@ -4,7 +4,7 @@ from hr_core.interactors.presenter_interfaces.presenter_interface import Present
 from hr_core.interactors.storage_interfaces.storage_interface import StorageInterface
 from hr_core.exceptions.custom_exceptions import InvalidEmployeeId
 from django.http import HttpResponse
-from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDto
+from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDTO
 
 
 class GetEmployeeInteractor:
@@ -21,7 +21,7 @@ class GetEmployeeInteractor:
         return presenter.get_response_for_get_employee(
             employee_details_dto=employee_details_dto)
 
-    def get_employee(self, employee_id: str, ) -> EmployeeDetailsDto:
+    def get_employee(self, employee_id: str, ) -> EmployeeDetailsDTO:
         self.storage.validate_employee_id(employee_id=employee_id)
         employee_details_dto = \
             self.storage.get_employee(employee_id=employee_id)

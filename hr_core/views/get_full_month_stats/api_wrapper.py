@@ -10,8 +10,8 @@ from hr_core.interactors.get_full_month_stats_interactor import FullMonthStatsIn
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     query_params = kwargs['query_params']
-    month = int(query_params['month'])
-    year = int(query_params['year'])
+    month = query_params['month']
+    year = query_params['year']
     employee_id = kwargs['employee_id']
 
     storage = StorageImplementation()

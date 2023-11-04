@@ -1,20 +1,21 @@
 from abc import abstractmethod
 from typing import List
-from hr_core.interactors.storage_interfaces.storage_interface import EmployeeDetailsDto
-from hr_core.interactors.storage_interfaces.storage_interface import ClockInAttendanceDto
-from hr_core.interactors.storage_interfaces.storage_interface import ClockOutAttendanceDto
-from hr_core.interactors.storage_interfaces.storage_interface import FullMothStatsDto
-from hr_core.interactors.storage_interfaces.storage_interface import AttendanceDto
+from hr_core.interactors.storage_interfaces.storage_interface import EmployeeDetailsDTO
+from hr_core.interactors.storage_interfaces.storage_interface import ClockInAttendanceDTO
+from hr_core.interactors.storage_interfaces.storage_interface import ClockOutAttendanceDTO
+from hr_core.interactors.storage_interfaces.storage_interface import FullMothStatsDTO
+from hr_core.interactors.storage_interfaces.storage_interface import AttendanceDTO
 
 from django.http import HttpResponse
 
+
 class PresenterInterface:
     @abstractmethod
-    def get_response_for_get_employee(self, employee_details_dto: EmployeeDetailsDto) -> HttpResponse:
+    def get_response_for_get_employee(self, employee_details_dto: EmployeeDetailsDTO) -> HttpResponse:
         pass
-    
+
     # TODO: missed abstractmethod decorator
-    def get_response_for_get_attendance_data(self, attendance_dto_list: List[AttendanceDto]) -> HttpResponse:
+    def get_response_for_get_attendance_data(self, attendance_dto_list: List[AttendanceDTO]) -> HttpResponse:
         pass
 
     @abstractmethod
@@ -22,11 +23,11 @@ class PresenterInterface:
         pass
 
     @abstractmethod
-    def get_mark_clock_in_response(self, clock_in_attendance_dto: ClockInAttendanceDto) -> HttpResponse:
+    def get_mark_clock_in_response(self, clock_in_attendance_dto: ClockInAttendanceDTO) -> HttpResponse:
         pass
 
     @abstractmethod
-    def get_mark_clock_out_response(self, clock_out_attendance_dto: ClockOutAttendanceDto) -> HttpResponse:
+    def get_mark_clock_out_response(self, clock_out_attendance_dto: ClockOutAttendanceDTO) -> HttpResponse:
         pass
 
     @abstractmethod
@@ -50,5 +51,5 @@ class PresenterInterface:
         pass
 
     @abstractmethod
-    def get_response_for_get_full_month_stats(self, full_month_stats_dto: FullMothStatsDto) -> HttpResponse:
+    def get_response_for_get_full_month_stats(self, full_month_stats_dto: FullMothStatsDTO) -> HttpResponse:
         pass
