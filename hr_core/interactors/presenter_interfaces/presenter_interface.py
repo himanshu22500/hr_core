@@ -8,12 +8,12 @@ from hr_core.interactors.storage_interfaces.storage_interface import AttendanceD
 
 from django.http import HttpResponse
 
-
 class PresenterInterface:
     @abstractmethod
     def get_response_for_get_employee(self, employee_details_dto: EmployeeDetailsDto) -> HttpResponse:
         pass
-
+    
+    # TODO: missed abstractmethod decorator
     def get_response_for_get_attendance_data(self, attendance_dto_list: List[AttendanceDto]) -> HttpResponse:
         pass
 

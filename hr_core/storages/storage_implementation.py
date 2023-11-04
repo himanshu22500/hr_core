@@ -87,6 +87,7 @@ class StorageImplementation(StorageInterface):
         return clock_in_dto
 
     def create_and_get_clockin_attendance(self, employee_id: str) -> ClockInAttendanceDto:
+        # TODO: try to avoid private methods in storage layer which involves model data modification code
         attendance_entry = self._create_clock_in_attendance(employee_id=employee_id)
         clock_in_attendance_dto = self._convert_attendance_object_to_clock_in_dto(attendance=attendance_entry)
         return clock_in_attendance_dto
@@ -104,6 +105,8 @@ class StorageImplementation(StorageInterface):
 
     def validate_already_not_clocked_in(self, employee_id: str):
         today = date.today()
+        # TODO: we should include clocked in datetime not null filter as well in below query
+        #  because, when somehow we have an entry in attendance model with all as null values, then this code breaks
         is_entry_for_today_exist = Attendance.objects.filter(
             Q(clock_in_datetime__date=today) & Q(employee__employee_id=employee_id)).exists()
         if is_entry_for_today_exist:
@@ -111,6 +114,7 @@ class StorageImplementation(StorageInterface):
 
     def validate_already_clocked_in(self, employee_id: str):
         today = date.today()
+        # TODO: we should include clocked in datetime null filter as well in below query
         is_entry_for_today_exist = Attendance.objects.filter(
             Q(clock_in_datetime__date=today) & Q(employee__employee_id=employee_id)).exists()
 
@@ -134,18 +138,24 @@ class StorageImplementation(StorageInterface):
             raise InvalidYear
 
     def get_full_month_stats(self, employee_id: str, month: int, year: int) -> FullMothStatsDto:
+        # TODO: module level imports must be global imports
         import calendar
         # assuming all days are working days in a month
         total_working_days = calendar.monthrange(year=year, month=month)[1]
 
+        # TODO: better to have this as separate storage method
         total_present_days = Attendance.objects.filter(
             Q(employee__employee_id=employee_id) & Q(status=AttendanceStatusType.PRESENT.value) & Q(
                 clock_in_datetime__date__year=year) & Q(clock_in_datetime__date__month=month)).count()
 
+        # TODO: better to have this as separate storage method
         total_absent_days = Attendance.objects.filter(
             Q(employee__employee_id=employee_id) & Q(status=AttendanceStatusType.ABSENT.value) & Q(
                 clock_in_datetime__date__year=year) & Q(clock_in_datetime__date__month=month)).count()
 
+        # TODO: this method has too much responsibility for a storage method,
+        #  because if we are asked to add single punch absents, then also we need to change this method
+        #  and this leaves the most of logic to storage which makes the interactor dry
         full_month_stats_dto = FullMothStatsDto(
             total_working_days=total_working_days, total_present_days=total_present_days,
             total_absent_days=total_absent_days
@@ -177,6 +187,7 @@ class StorageImplementation(StorageInterface):
 
     def get_employee(self, employee_id: str) -> EmployeeDetailsDto:
         employee = Employee.objects.get(employee_id=employee_id)
+        # TODO: kwargs should be used
         employee_dto = self._convert_employee_object_to_dto(employee)
         return employee_dto
 

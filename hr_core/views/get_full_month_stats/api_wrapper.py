@@ -18,4 +18,5 @@ def api_wrapper(*args, **kwargs):
     presenter = PresenterImplementation()
     interactor = FullMonthStatsInteractor(storage=storage)
 
+    # TODO: have an input param dto
     return interactor.get_full_month_stats_wrapper(month=month, year=year, employee_id=employee_id, presenter=presenter)

@@ -10,6 +10,7 @@ from hr_core.interactors.get_attendance_data_interactor import GetAttendanceData
 @validate_decorator(validator_class=ValidatorClass)
 def api_wrapper(*args, **kwargs):
     query_params = kwargs['query_params']
+    # todo: should we do this conversion ?
     month = int(query_params['month'])
     year = int(query_params['year'])
     employee_id = kwargs['employee_id']
@@ -18,4 +19,5 @@ def api_wrapper(*args, **kwargs):
     presenter = PresenterImplementation()
     interactor = GetAttendanceDataInteractor(storage=storage)
 
+    # todo: method args are more than four, so better to wrap these up in a dto
     return interactor.get_attendance_data_wrapper(month=month, year=year, employee_id=employee_id, presenter=presenter)

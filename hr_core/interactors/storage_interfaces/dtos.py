@@ -14,6 +14,8 @@ class ClockOutAttendanceDto:
     clock_out_date_time: datetime.datetime
 
 
+# TODO: Actually our dto naming convention is a little bit different,
+# TODO: we will have DTO suffix instead of Dto
 @dataclass
 class EmployeeDetailsDto:
     employee_id: str

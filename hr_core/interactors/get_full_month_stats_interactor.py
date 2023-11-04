@@ -21,6 +21,7 @@ class FullMonthStatsInteractor:
 
         return presenter.get_response_for_get_full_month_stats(full_month_stats_dto=full_month_stats_dto)
 
+    # TODO: method name should always be a verb, i.e, should be representing an action
     def full_month_stats(self, month: int, year: int, employee_id: str) -> FullMothStatsDto:
         self.storage.validate_year(year=year)
         self.storage.validate_month(month=month)
