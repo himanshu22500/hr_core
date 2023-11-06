@@ -5,7 +5,7 @@ from django.utils.timezone import now
 
 
 class Employee(models.Model):
-    user_id = models.CharField(max_length=255)
+    user_id = models.CharField(max_length=255, null=True, blank=True)
     employee_id = models.CharField(primary_key=True, max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)

@@ -10,7 +10,7 @@ from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDTO
 class StorageInterface:
 
     @abstractmethod
-    def get_attendance_data_for_month_year_employee(self, attendance_params: AttendanceParamDTO) -> List[AttendanceDTO]:
+    def get_attendance_data_for_month_year_dto(self, attendance_params: AttendanceParamDTO) -> List[AttendanceDTO]:
         pass
 
     @abstractmethod
@@ -26,7 +26,7 @@ class StorageInterface:
         pass
 
     @abstractmethod
-    def get_single_punch_in_days_month(self, attendance_params: AttendanceParamDTO) -> int:
+    def get_total_single_punch_in_days_month(self, attendance_params: AttendanceParamDTO) -> int:
         pass
 
     @abstractmethod

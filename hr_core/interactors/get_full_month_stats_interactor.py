@@ -25,11 +25,12 @@ class FullMonthStatsInteractor:
         self.validate_year(year=attendance_params.year)
         self.validate_month(month=attendance_params.month)
 
-        total_working_days = self.storage.get_total_working_days_month(month=attendance_params.month,
-                                                                       year=attendance_params.year)
+        total_working_days = self.get_total_working_days_month(month=attendance_params.month,
+                                                               year=attendance_params.year)
         total_present_days = self.storage.get_total_present_days_month(attendance_params=attendance_params)
         total_absent_days = self.storage.get_total_absent_days_month(attendance_params=attendance_params)
-        total_single_punch_in_days = self.storage.get_single_punch_in_days_month(attendance_params=attendance_params)
+        total_single_punch_in_days = self.storage.get_total_single_punch_in_days_month(
+            attendance_params=attendance_params)
 
         return FullMothStatsDTO(
             total_working_days=total_working_days,
@@ -37,6 +38,11 @@ class FullMonthStatsInteractor:
             total_absent_days=total_absent_days,
             total_single_punch_in_days=total_single_punch_in_days
         )
+
+    @staticmethod
+    def get_total_working_days_month(month: int, year: int) -> int:
+        from calendar import monthrange
+        return monthrange(year=year, month=month)[1]
 
     @staticmethod
     def validate_month(month: int) -> None:

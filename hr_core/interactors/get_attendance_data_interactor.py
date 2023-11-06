@@ -28,7 +28,7 @@ class GetAttendanceDataInteractor:
         self.validate_month(month=attendance_params.month)
         self.validate_year(year=attendance_params.year)
 
-        attendance_data_dtos = self.storage.get_attendance_data_for_month_year_employee(
+        attendance_data_dtos = self.storage.get_attendance_data_for_month_year_dto(
             attendance_params=attendance_params)
         return attendance_data_dtos
 
