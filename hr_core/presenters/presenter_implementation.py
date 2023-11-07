@@ -24,14 +24,15 @@ class PresenterImplementation(PresenterInterface, HTTPResponseMixin):
         return self.prepare_201_created_response(response_dict=clock_in_attendance_dict)
 
     def get_response_for_get_attendance_data(self, attendance_dto_list: List[AttendanceDTO]) -> HttpResponse:
-        attendance_data_list = self._get_attendance_data_list(attendance_dto_list=attendance_dto_list)
+        attendance_data_list = self._convert_attendance_dtos_to_dicts(attendance_dto_list=attendance_dto_list)
+
         response_dict = {
             "attendance_data": attendance_data_list
         }
         return self.prepare_200_success_response(response_dict=response_dict)
 
     @staticmethod
-    def _get_attendance_data_list(attendance_dto_list: List[AttendanceDTO]) -> List[Dict]:
+    def _convert_attendance_dtos_to_dicts(attendance_dto_list: List[AttendanceDTO]) -> List[Dict]:
         attendance_data_list = []
         for attendance_dto in attendance_dto_list:
             attendance_data_dict = {
