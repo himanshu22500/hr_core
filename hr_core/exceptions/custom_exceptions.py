@@ -23,7 +23,7 @@ class EmployeeNotClockedIn(Exception):
         self.employee_id = employee_id
 
 
-class InvalidMoth(Exception):
+class InvalidMonth(Exception):
     def __init__(self, month: int):
         self.month = month
 

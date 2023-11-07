@@ -8,7 +8,7 @@ from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDTO
 from hr_core.models.employee import Employee
 from hr_core.models.attendance import Attendance
 from hr_core.exceptions.custom_exceptions import InvalidEmployeeId
-from hr_core.exceptions.custom_exceptions import InvalidMoth
+from hr_core.exceptions.custom_exceptions import InvalidMonth
 from hr_core.exceptions.custom_exceptions import InvalidYear
 from hr_core.exceptions.custom_exceptions import EmployeeAlreadyClockedIn
 from hr_core.exceptions.custom_exceptions import EmployeeNotClockedIn

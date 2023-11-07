@@ -4,7 +4,7 @@ from .validator_class import ValidatorClass
 
 from hr_core.presenters.presenter_implementation import PresenterImplementation
 from hr_core.storages.storage_implementation import StorageImplementation
-from hr_core.interactors.get_full_month_stats_interactor import FullMonthStatsInteractor
+from hr_core.interactors.get_full_month_stats_interactor import GetFullMonthStatsInteractor
 from ...interactors.storage_interfaces.dtos import AttendanceParamDTO
 
 
@@ -17,7 +17,7 @@ def api_wrapper(*args, **kwargs):
 
     storage = StorageImplementation()
     presenter = PresenterImplementation()
-    interactor = FullMonthStatsInteractor(storage=storage)
+    interactor = GetFullMonthStatsInteractor(storage=storage)
 
     attendance_params = AttendanceParamDTO(
         month=month,
