@@ -16,7 +16,7 @@ class TestCase01GetEmployeeAPITestCase(TestUtils):
     @pytest.mark.django_db
     def test_case(self, snapshot):
         body = {}
-        path_params = {"employee_id": "12.12"}
+        path_params = {"employee_id": "1"}
         query_params = {}
         headers = {}
         response = self.make_api_call(body=body,

@@ -14,10 +14,10 @@ class TestCase01GetFullMonthStatsAPITestCase(TestUtils):
     SECURITY = {'oauth': {'scopes': ['read']}}
 
     @pytest.mark.django_db
-    def test_case(self, snapshot):
+    def test_case(self, snapshot, create_employees):
         body = {}
-        path_params = {"employee_id": "12.12"}
-        query_params = {'month': 670, 'year': 557}
+        path_params = {"employee_id": "1"}
+        query_params = {'month': 12, 'year': 557}
         headers = {}
         response = self.make_api_call(body=body,
                                       path_params=path_params,

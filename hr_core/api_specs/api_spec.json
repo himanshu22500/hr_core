@@ -459,6 +459,9 @@
           },
           "400": {
             "$ref": "#/responses/MonthStatsFailureResponse"
+          },
+          "404": {
+            "$ref": "#/responses/EmployeeNotFoundResponse"
           }
         }
       }
@@ -492,6 +495,9 @@
           },
           "400": {
             "$ref": "#/responses/AttendanceDataFailureResponse"
+          },
+          "404": {
+            "$ref": "#/responses/EmployeeNotFoundResponse"
           }
         }
       }

@@ -7,6 +7,11 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case status_code'] = '404'
+snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case status_code'] = '200'
 
-snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case body'] = b'<h1>Not Found</h1><p>The requested resource was not found on this server.</p>'
+snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case body'] = {
+    'total_absent_days': 0,
+    'total_present_days': 0,
+    'total_single_punch_in_days': 0,
+    'total_working_days': 31
+}
