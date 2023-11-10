@@ -8,7 +8,7 @@ from hr_core.tests.factories.models import EmployeeFactory
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
-class TestCase01GetAttendanceDataAPITestCase(TestUtils):
+class TestCase03GetAttendanceDataAPITestCase(TestUtils):
     APP_NAME = APP_NAME
     OPERATION_NAME = OPERATION_NAME
     REQUEST_METHOD = REQUEST_METHOD
@@ -17,11 +17,14 @@ class TestCase01GetAttendanceDataAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot):
+        # Arrange
         body = {}
         path_params = {"employee_id": "0"}
         query_params = {'month': 13, 'year': 2023}
         headers = {}
         employee = EmployeeFactory()
+
+        # Act and Assert
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,

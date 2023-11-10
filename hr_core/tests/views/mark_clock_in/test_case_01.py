@@ -1,12 +1,12 @@
 """
-# TODO: Update test case description
+Test to clockin with valid data and already not clocked in
 """
 import pytest
 from django_swagger_utils.utils.test_utils import TestUtils
-from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
-from hr_core.tests.factories.models import EmployeeFactory
-from hr_core.tests.factories.models import ClockInAttendanceFactory
 from freezegun import freeze_time
+
+from hr_core.tests.factories.models import EmployeeFactory
+from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
 class TestCase01MarkClockInAPITestCase(TestUtils):

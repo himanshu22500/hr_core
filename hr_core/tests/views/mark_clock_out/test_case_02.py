@@ -1,5 +1,5 @@
 """
-# TODO: Update test case description
+Test for valid clockin with a fixed dummy date
 """
 import datetime
 
@@ -21,14 +21,19 @@ class TestCase01MarkClockOutAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot, api_user):
+        # Arrange
         body = {}
         path_params = {}
         query_params = {}
         headers = {}
-        employee = EmployeeFactory(user_id=str(api_user.user_id))
-        test_date = datetime.date(2023, 9, 9)
+        # test_date = datetime.date(2023, 9, 9)
+        test_date = "2023-09-09"
+
+        # Act and Assert
         with freeze_time(test_date):
-            attendance = ClockInAttendanceFactory(employee=employee)
+            now = datetime.datetime.now()
+            employee = EmployeeFactory(user_id=str(api_user.user_id), joining_date=now)
+            attendance = ClockInAttendanceFactory(employee=employee, clock_in_datetime=now)
             response = self.make_api_call(body=body,
                                           path_params=path_params,
                                           query_params=query_params,

@@ -1,5 +1,5 @@
 """
-# TODO: Update test case description
+Test with valid Employee_id , Response with 200
 """
 import datetime
 
@@ -10,7 +10,7 @@ from hr_core.tests.factories.models import EmployeeFactory
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
-class TestCase01GetEmployeeAPITestCase(TestUtils):
+class TestCase02GetEmployeeAPITestCase(TestUtils):
     APP_NAME = APP_NAME
     OPERATION_NAME = OPERATION_NAME
     REQUEST_METHOD = REQUEST_METHOD

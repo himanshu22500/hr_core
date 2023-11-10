@@ -1,5 +1,5 @@
 """
-# TODO: Update test case description
+Test wiht invalid Month number gives 400 Response
 """
 
 import pytest
@@ -18,12 +18,14 @@ class TestCase03GetFullMonthStatsAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot):
+        # Arrange
         body = {}
         path_params = {"employee_id": "0"}
         query_params = {'month': 13, 'year': 2023}
         headers = {}
         employee = EmployeeFactory()
 
+        # Act and Assert
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,

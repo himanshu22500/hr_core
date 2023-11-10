@@ -7,10 +7,9 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01MarkClockOutAPITestCase.test_case status_code'] = '400'
+snapshots['TestCase01MarkClockOutAPITestCase.test_case status_code'] = '200'
 
 snapshots['TestCase01MarkClockOutAPITestCase.test_case body'] = {
-    'http_status_code': 400,
-    'res_status': 'EMPLOYEE_NOT_CLOCKED_IN',
-    'response': 'Employee Not Clocked in'
+    'attendance_id': '1',
+    'clock_out_date_time': '2023-09-09 00:00:00'
 }

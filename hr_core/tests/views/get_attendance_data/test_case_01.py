@@ -16,10 +16,12 @@ class TestCase01GetAttendanceDataAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot):
+        # Arrange
         body = {}
         path_params = {"employee_id": "1"}
         query_params = {'month': 11, 'year': 2023}
         headers = {}
+        # Act and Assert
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,

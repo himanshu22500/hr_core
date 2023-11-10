@@ -8,7 +8,7 @@ from hr_core.tests.factories.models import EmployeeFactory
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
-class TestCase01GetAttendanceDataAPITestCase(TestUtils):
+class TestCase04GetAttendanceDataAPITestCase(TestUtils):
     APP_NAME = APP_NAME
     OPERATION_NAME = OPERATION_NAME
     REQUEST_METHOD = REQUEST_METHOD

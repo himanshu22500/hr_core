@@ -1,26 +1,27 @@
 import datetime
+from datetime import date
 from typing import List, Dict
-from hr_core.interactors.storage_interfaces.storage_interface import StorageInterface
+
+from django.db.models import Q
+
+from hr_core.constants.enums import AttendanceStatusType
+from hr_core.exceptions.custom_exceptions import EmployeeAlreadyClockedIn
+from hr_core.exceptions.custom_exceptions import EmployeeAlreadyClockedOut
+from hr_core.exceptions.custom_exceptions import EmployeeNotClockedIn
+from hr_core.exceptions.custom_exceptions import InvalidEmployeeId
 from hr_core.interactors.storage_interfaces.dtos import AttendanceDTO, AttendanceParamDTO
-from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDTO
 from hr_core.interactors.storage_interfaces.dtos import ClockInAttendanceDTO
 from hr_core.interactors.storage_interfaces.dtos import ClockOutAttendanceDTO
-from hr_core.models.employee import Employee
+from hr_core.interactors.storage_interfaces.dtos import EmployeeDetailsDTO
+from hr_core.interactors.storage_interfaces.storage_interface import StorageInterface
 from hr_core.models.attendance import Attendance
-from hr_core.exceptions.custom_exceptions import InvalidEmployeeId
-from hr_core.exceptions.custom_exceptions import InvalidMonth
-from hr_core.exceptions.custom_exceptions import InvalidYear
-from hr_core.exceptions.custom_exceptions import EmployeeAlreadyClockedIn
-from hr_core.exceptions.custom_exceptions import EmployeeNotClockedIn
-from hr_core.exceptions.custom_exceptions import EmployeeAlreadyClockedOut
-from datetime import date
-from django.db.models import Q
-from hr_core.constants.enums import AttendanceStatusType
+from hr_core.models.employee import Employee
 
 
 class StorageImplementation(StorageInterface):
 
     def get_employee(self, employee_id: str) -> EmployeeDetailsDTO:
+        # Assuming function is called only after validating employee_id
         employee = Employee.objects.get(employee_id=employee_id)
         employee_dto = self._convert_employee_object_to_dto(employee=employee)
         return employee_dto

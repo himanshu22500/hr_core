@@ -1,8 +1,9 @@
 """
-# TODO: Update test case description
+Test with invalid Employee_id, Response with 404
 """
 import pytest
 from django_swagger_utils.utils.test_utils import TestUtils
+
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
@@ -15,10 +16,13 @@ class TestCase01GetEmployeeAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot):
+        # Arrange
         body = {}
         path_params = {"employee_id": "1"}
         query_params = {}
         headers = {}
+
+        # Act and Assert
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,

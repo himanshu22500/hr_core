@@ -7,17 +7,9 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case status_code'] = '404'
+snapshots['TestCase02getFullMonthStatsAPITestCase.test_case status_code'] = '404'
 
-snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case body'] = {
-    'http_status_code': 404,
-    'res_status': 'INVALID_EMPLOYEE_ID',
-    'response': 'Employee Does not exist'
-}
-
-snapshots['TestCase022etFullMonthStatsAPITestCase.test_case status_code'] = '404'
-
-snapshots['TestCase022etFullMonthStatsAPITestCase.test_case body'] = {
+snapshots['TestCase02getFullMonthStatsAPITestCase.test_case body'] = {
     'http_status_code': 404,
     'res_status': 'INVALID_EMPLOYEE_ID',
     'response': 'Employee Does not exist'

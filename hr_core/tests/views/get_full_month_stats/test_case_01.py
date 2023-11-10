@@ -1,5 +1,5 @@
 """
-# TODO: Update test case description
+Test to get attendance with valid employee_id, month and year
 """
 import datetime
 
@@ -21,6 +21,7 @@ class TestCase01GetFullMonthStatsAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot):
+        # Arrange
         body = {}
         path_params = {"employee_id": '0'}
         test_date = datetime.datetime(year=2023, month=2, day=20)
@@ -36,6 +37,7 @@ class TestCase01GetFullMonthStatsAPITestCase(TestUtils):
 
         absent = SinglePunchInAbsentAttendanceFactory(employee=employee,
                                                       clock_in_datetime=test_date)
+        # Act and Assert
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,

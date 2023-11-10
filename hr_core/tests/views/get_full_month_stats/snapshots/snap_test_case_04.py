@@ -7,18 +7,11 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case status_code'] = '400'
-
-snapshots['TestCase01GetFullMonthStatsAPITestCase.test_case body'] = {
-    'http_status_code': 400,
-    'res_status': 'INVALID_YEAR',
-    'response': 'Year must be less then current year'
-}
-
-snapshots['TestCase04GetFullMonthStatsAPITestCase.test_case status_code'] = '404'
+snapshots['TestCase04GetFullMonthStatsAPITestCase.test_case status_code'] = '200'
 
 snapshots['TestCase04GetFullMonthStatsAPITestCase.test_case body'] = {
-    'http_status_code': 404,
-    'res_status': 'INVALID_EMPLOYEE_ID',
-    'response': 'Employee Does not exist'
+    'total_absent_days': 0,
+    'total_present_days': 0,
+    'total_single_punch_in_days': 0,
+    'total_working_days': 31
 }

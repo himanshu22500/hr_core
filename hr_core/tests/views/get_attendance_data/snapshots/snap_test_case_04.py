@@ -7,9 +7,9 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01GetAttendanceDataAPITestCase.test_case status_code'] = '400'
+snapshots['TestCase04GetAttendanceDataAPITestCase.test_case status_code'] = '400'
 
-snapshots['TestCase01GetAttendanceDataAPITestCase.test_case body'] = {
+snapshots['TestCase04GetAttendanceDataAPITestCase.test_case body'] = {
     'http_status_code': 400,
     'res_status': 'INVALID_YEAR',
     'response': 'Year must be less then current year'

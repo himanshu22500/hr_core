@@ -11,7 +11,7 @@ from hr_core.tests.factories.models import PresentAttendanceFactory
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
-class TestCase01GetAttendanceDataAPITestCase(TestUtils):
+class TestCase02GetAttendanceDataAPITestCase(TestUtils):
     APP_NAME = APP_NAME
     OPERATION_NAME = OPERATION_NAME
     REQUEST_METHOD = REQUEST_METHOD
@@ -20,6 +20,7 @@ class TestCase01GetAttendanceDataAPITestCase(TestUtils):
 
     @pytest.mark.django_db
     def test_case(self, snapshot):
+        # Arrange
         body = {}
         path_params = {"employee_id": "0"}
         test_date = datetime.date(year=2023, month=10, day=20)
@@ -30,6 +31,7 @@ class TestCase01GetAttendanceDataAPITestCase(TestUtils):
         attendance = PresentAttendanceFactory(employee=employee, clock_in_datetime=test_date,
                                               clock_out_datetime=test_date + datetime.timedelta(hours=9))
 
+        # Act and Assert
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,
