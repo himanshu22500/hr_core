@@ -1,11 +1,12 @@
 import datetime
 
-from hr_core.models.employee import Employee
-from hr_core.models.attendance import Attendance
-from hr_core.constants.enums import JobRoleType
+import factory
+
 from hr_core.constants.enums import AttendanceStatusType
 from hr_core.constants.enums import DepartmentType
-import factory
+from hr_core.constants.enums import JobRoleType
+from hr_core.models.attendance import Attendance
+from hr_core.models.employee import Employee
 
 
 class EmployeeFactory(factory.django.DjangoModelFactory):
@@ -19,7 +20,7 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
     last_name = factory.sequence(lambda n: f"first_name{n}")
     email = factory.sequence(lambda n: f"email{n}")
     phone_number = factory.sequence(lambda n: f"first_name{n}")
-    joining_date = datetime.datetime(year=2023, month=2, day=20)
+    joining_date = datetime.datetime.now()
     job_role = factory.Iterator([job_role.value for job_role in JobRoleType])
     department = factory.Iterator([department.value for department in DepartmentType])
 

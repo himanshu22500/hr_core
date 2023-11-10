@@ -7,15 +7,10 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['TestCase01GetEmployeeAPITestCase.test_case status_code'] = '200'
+snapshots['TestCase01GetEmployeeAPITestCase.test_case status_code'] = '404'
 
 snapshots['TestCase01GetEmployeeAPITestCase.test_case body'] = {
-    'department': 'HR',
-    'email': 'email0',
-    'employee_id': '0',
-    'first_name': 'first_name0',
-    'job_role': 'MANAGER',
-    'joining_date': '2023-02-20 00:00:00',
-    'last_name': 'first_name0',
-    'phone_number': 'first_name0'
+    'http_status_code': 404,
+    'res_status': 'INVALID_EMPLOYEE_ID',
+    'response': 'Employee Does not exist'
 }

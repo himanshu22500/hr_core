@@ -1,13 +1,14 @@
 """
-# TODO: Update test case description
+Invalid month value for getting details
 """
 import pytest
 from django_swagger_utils.utils.test_utils import TestUtils
 
+from hr_core.tests.factories.models import EmployeeFactory
 from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
-class TestCase022etFullMonthStatsAPITestCase(TestUtils):
+class TestCase01GetAttendanceDataAPITestCase(TestUtils):
     APP_NAME = APP_NAME
     OPERATION_NAME = OPERATION_NAME
     REQUEST_METHOD = REQUEST_METHOD
@@ -17,9 +18,10 @@ class TestCase022etFullMonthStatsAPITestCase(TestUtils):
     @pytest.mark.django_db
     def test_case(self, snapshot):
         body = {}
-        path_params = {"employee_id": "1"}
-        query_params = {'month': 12, 'year': 557}
+        path_params = {"employee_id": "0"}
+        query_params = {'month': 13, 'year': 2023}
         headers = {}
+        employee = EmployeeFactory()
         response = self.make_api_call(body=body,
                                       path_params=path_params,
                                       query_params=query_params,

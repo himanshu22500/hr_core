@@ -1,11 +1,15 @@
 """
 # TODO: Update test case description
 """
+import datetime
+
 import pytest
 from django_swagger_utils.utils.test_utils import TestUtils
-from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
-from hr_core.tests.factories.models import EmployeeFactory
+from freezegun import freeze_time
+
 from hr_core.tests.factories.models import ClockInAttendanceFactory
+from hr_core.tests.factories.models import EmployeeFactory
+from . import APP_NAME, OPERATION_NAME, REQUEST_METHOD, URL_SUFFIX
 
 
 class TestCase01MarkClockOutAPITestCase(TestUtils):
@@ -22,9 +26,11 @@ class TestCase01MarkClockOutAPITestCase(TestUtils):
         query_params = {}
         headers = {}
         employee = EmployeeFactory(user_id=str(api_user.user_id))
-        attendance = ClockInAttendanceFactory(employee=employee)
-        response = self.make_api_call(body=body,
-                                      path_params=path_params,
-                                      query_params=query_params,
-                                      headers=headers,
-                                      snapshot=snapshot)
+        test_date = datetime.date(2023, 9, 9)
+        with freeze_time(test_date):
+            attendance = ClockInAttendanceFactory(employee=employee)
+            response = self.make_api_call(body=body,
+                                          path_params=path_params,
+                                          query_params=query_params,
+                                          headers=headers,
+                                          snapshot=snapshot)
