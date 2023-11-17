@@ -27,7 +27,7 @@ class TestCreateAndGetClockoutAttendance:
         attendance_obj = Attendance.objects.get(id=attendance_dto.attendance_id)
 
         # Assert
-        assert attendance_obj.clock_out_datetime == datetime.now()  # Find how to do this
+        assert attendance_obj.clock_out_datetime == datetime.now()
         assert attendance_obj.employee.employee_id == "1"
         assert attendance_dto.attendance_id == attendance_obj.id
         assert attendance_dto.clock_out_date_time == attendance_obj.clock_out_datetime
